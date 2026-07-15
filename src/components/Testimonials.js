@@ -58,7 +58,7 @@ function Stars({ count = 5 }) {
   );
 }
 
-export default function Testimonials() {
+export default function Testimonials({ tagIndex = "02" }) {
   const [items, setItems] = useState(PLACEHOLDER);
 
   useEffect(() => {
@@ -76,7 +76,7 @@ export default function Testimonials() {
     <section id="testimonials" className={styles.section}>
       <header className={styles.header}>
         <span className={styles.tag}>
-          <span className={styles.tagIndex}>02</span>
+          <span className={styles.tagIndex}>{tagIndex}</span>
           Testimonials
         </span>
         <h2 className={styles.title}>

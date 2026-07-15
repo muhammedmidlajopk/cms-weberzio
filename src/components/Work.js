@@ -25,7 +25,7 @@ const PLACEHOLDER = [
   },
 ];
 
-export default function Work() {
+export default function Work({ tagIndex = "02" }) {
   const [items, setItems] = useState(PLACEHOLDER);
 
   useEffect(() => {
@@ -46,7 +46,7 @@ export default function Work() {
       <header className={styles.header}>
         <div className={styles.headerLeft}>
           <span className={styles.tag}>
-            <span className={styles.tagIndex}>02</span>
+            <span className={styles.tagIndex}>{tagIndex}</span>
             Case Study
           </span>
           <h2 className={styles.title}>

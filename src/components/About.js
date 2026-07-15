@@ -9,12 +9,12 @@ const facts = [
   { label: "Availability", value: "Q3 · 2026" },
 ];
 
-export default function About() {
+export default function About({ tagIndex = "02" }) {
   return (
     <section id="about" className={styles.section}>
       <header className={styles.header}>
         <span className={styles.tag}>
-          <span className={styles.tagIndex}>02</span>
+          <span className={styles.tagIndex}>{tagIndex}</span>
           About
         </span>
         <h2 className={styles.title}>

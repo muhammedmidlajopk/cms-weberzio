@@ -31,11 +31,11 @@ export default async function Home() {
       <Header siteName={settings.siteName} logoUrl={settings.logoUrl} />
       <main>
         <Hero siteName={settings.siteName} tagline={settings.tagline} />
-        <About />
-        <Highlights tagIndex="03" />
-        <Work />
-        <Testimonials />
-        <FAQ tagIndex="06" />
+        <About tagIndex="01" />
+        <Highlights tagIndex="02" />
+        <Work tagIndex="03" />
+        <Testimonials tagIndex="04" />
+        <FAQ tagIndex="05" />
       </main>
       <Footer siteName={settings.siteName} />
       <JsonLd data={servicesLd} />
