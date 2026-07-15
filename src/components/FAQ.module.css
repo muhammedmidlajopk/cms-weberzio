@@ -1,0 +1,138 @@
+.section {
+  padding: 120px 48px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-bottom: 60px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 40px;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.tagIndex {
+  padding: 3px 7px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  color: rgba(255, 255, 255, 0.7);
+  font-variant-numeric: tabular-nums;
+}
+
+.title {
+  font-family: var(--font-sora), sans-serif;
+  font-size: clamp(36px, 5vw, 72px);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  margin: 0;
+  max-width: 20ch;
+}
+
+.titleAlt {
+  font-style: italic;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-width: 960px;
+}
+
+.item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.question {
+  width: 100%;
+  padding: 28px 0;
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  cursor: pointer;
+  text-align: left;
+  color: var(--text-primary, #ffffff);
+  font-family: inherit;
+  transition: color 0.2s ease;
+}
+
+.question:hover {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.qText {
+  font-family: var(--font-sora), sans-serif;
+  font-size: clamp(18px, 2vw, 22px);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+
+.icon {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.icon span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 14px;
+  height: 1px;
+  background: currentColor;
+  transform: translate(-50%, -50%);
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.icon span:nth-child(2) {
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.itemOpen .icon span:nth-child(2) {
+  transform: translate(-50%, -50%) rotate(0deg);
+  opacity: 0;
+}
+
+.panel {
+  padding: 0 0 28px;
+  max-width: 72ch;
+}
+
+.answer {
+  font-size: 16px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 80px 22px;
+  }
+  .question {
+    padding: 22px 0;
+  }
+  .panel {
+    padding: 0 0 22px;
+  }
+}

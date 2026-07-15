@@ -31,10 +31,18 @@ export const DEFAULT_LLMS = `# {{siteName}}
 export function buildSitemap(origin, routes = ["/"]) {
   const now = new Date().toISOString();
   const urls = routes
-    .map(
-      (r) =>
-        `  <url>\n    <loc>${origin}${r}</loc>\n    <lastmod>${now}</lastmod>\n  </url>`
-    )
+    .map((r) => {
+      const entry = typeof r === "string" ? { path: r } : r;
+      const loc = `${origin}${entry.path}`;
+      const lastmod = entry.lastmod || now;
+      const changefreq = entry.changefreq
+        ? `\n    <changefreq>${entry.changefreq}</changefreq>`
+        : "";
+      const priority = entry.priority
+        ? `\n    <priority>${entry.priority}</priority>`
+        : "";
+      return `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${lastmod}</lastmod>${changefreq}${priority}\n  </url>`;
+    })
     .join("\n");
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
