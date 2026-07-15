@@ -124,7 +124,7 @@
 .link:hover .linkLabel {
   background-position: left bottom;
   background-size: 100% 2px;
-  color: #a855f7;
+  color: #D33F3F;
 }
 
 /* Right column */
@@ -217,7 +217,7 @@
 
 .contactPhone {
   font-size: 15px;
-  color: #a855f7;
+  color: #D33F3F;
   text-decoration: underline;
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
@@ -225,7 +225,7 @@
 }
 
 .contactPhone:hover {
-  color: #c084fc;
+  color: #e06060;
 }
 
 .contactEmail {
