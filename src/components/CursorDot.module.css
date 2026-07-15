@@ -1,0 +1,23 @@
+.dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ffffff;
+  pointer-events: none;
+  z-index: 99999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  mix-blend-mode: difference;
+  will-change: translate;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.4),
+              0 0 24px rgba(255, 255, 255, 0.15);
+}
+
+@media (max-width: 768px) {
+  .dot {
+    display: none;
+  }
+}

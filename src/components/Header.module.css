@@ -1,0 +1,134 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 32px 56px;
+  background: transparent;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.headerHidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.inner {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding-left: min(6vw, 80px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.inner > * {
+  pointer-events: auto;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  mix-blend-mode: difference;
+}
+
+.logoImg {
+  height: 28px;
+  width: auto;
+  display: block;
+}
+
+/* Menu button — text with a two-line icon on the left */
+.menuButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-family: var(--font-sora), sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  z-index: 1001;
+  mix-blend-mode: difference;
+}
+
+.menuIcon {
+  position: relative;
+  width: 26px;
+  height: 14px;
+  display: inline-block;
+}
+
+.menuIcon span {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1.5px;
+  background: currentColor;
+  border-radius: 2px;
+  transition: transform 0.35s cubic-bezier(0.76, 0, 0.24, 1),
+              top 0.35s ease, bottom 0.35s ease;
+}
+
+.menuIcon span:nth-child(1) { top: 4px; }
+.menuIcon span:nth-child(2) { bottom: 4px; }
+
+.menuButtonOpen .menuIcon span:nth-child(1) {
+  top: 6px;
+  transform: rotate(45deg);
+}
+.menuButtonOpen .menuIcon span:nth-child(2) {
+  bottom: 6px;
+  transform: rotate(-45deg);
+}
+
+.menuLabel {
+  height: 18px;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.menuLabelInner {
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.menuLabelInner > span {
+  height: 18px;
+  line-height: 18px;
+  display: block;
+}
+
+.menuLabelInner[data-open="true"] {
+  transform: translateY(-18px);
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 22px 22px;
+  }
+
+  .logo {
+    font-size: 17px;
+  }
+
+  .menuButton {
+    font-size: 14px;
+    gap: 10px;
+  }
+}
