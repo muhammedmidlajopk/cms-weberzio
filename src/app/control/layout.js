@@ -21,7 +21,7 @@ import styles from "./layout.module.css";
 
 const navItems = [
   { href: "/control", label: "Dashboard", Icon: LayoutDashboard },
-  { href: "/control/products", label: "Products", Icon: Package },
+  { href: "/control/products", label: "Case Studies", Icon: Package },
   { href: "/control/services", label: "Services", Icon: Wrench },
   { href: "/control/testimonials", label: "Testimonials", Icon: MessageSquareQuote },
   { href: "/control/menus", label: "Menus", Icon: MenuIcon },

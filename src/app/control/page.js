@@ -47,7 +47,7 @@ export default function AdminDashboard() {
   }, []);
 
   const stats = [
-    { label: "Products", value: counts.products, sub: "Digital items", href: "/control/products" },
+    { label: "Case Studies", value: counts.products, sub: "Home page projects", href: "/control/products" },
     { label: "Services", value: counts.services, sub: "Active", href: "/control/services" },
     { label: "Testimonials", value: counts.testimonials, sub: "Client quotes", href: "/control/testimonials" },
     { label: "Menu Items", value: menus ? (menus.header?.length || 0) + (menus.footer?.length || 0) : "…", sub: "Header + Footer", href: "/control/menus" },
@@ -59,7 +59,7 @@ export default function AdminDashboard() {
     { href: "/control/settings", label: "Site Settings", desc: "Logo, favicon, site title", Icon: Settings },
     { href: "/control/seo", label: "SEO Meta", desc: "Titles, descriptions, OG images", Icon: Search },
     { href: "/control/menus", label: "Navigation", desc: "Header & footer menus", Icon: MenuIcon },
-    { href: "/control/products", label: "Products", desc: "Add or edit products", Icon: Package },
+    { href: "/control/products", label: "Case Studies", desc: "Add or edit case studies", Icon: Package },
     { href: "/control/services", label: "Services", desc: "Manage services offered", Icon: Wrench },
     { href: "/control/testimonials", label: "Testimonials", desc: "Client quotes on the home page", Icon: MessageSquareQuote },
     { href: "/", label: "View Site", desc: "Open public site in a new tab", external: true, Icon: Globe },

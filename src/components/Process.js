@@ -23,12 +23,12 @@ const steps = [
   },
 ];
 
-export default function Process() {
+export default function Process({ tagIndex = "02" }) {
   return (
     <section className={styles.section}>
       <header className={styles.header}>
         <span className={styles.tag}>
-          <span className={styles.tagIndex}>02</span>
+          <span className={styles.tagIndex}>{tagIndex}</span>
           Process
         </span>
         <h2 className={styles.title}>

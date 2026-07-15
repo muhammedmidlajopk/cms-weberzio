@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 import styles from "./Work.module.css";
 
 const PLACEHOLDER = [
@@ -25,21 +26,16 @@ const PLACEHOLDER = [
 ];
 
 export default function Work() {
-  const [items, setItems] = useState([]);
-  const [ready, setReady] = useState(false);
+  const [items, setItems] = useState(PLACEHOLDER);
 
   useEffect(() => {
     fetch("/api/products")
       .then((r) => r.json())
       .then((data) => {
         const products = data.products || [];
-        setItems(products.length > 0 ? products : PLACEHOLDER);
-        setReady(true);
+        if (products.length > 0) setItems(products);
       })
-      .catch(() => {
-        setItems(PLACEHOLDER);
-        setReady(true);
-      });
+      .catch(() => {});
   }, []);
 
   // Show only the first 3 — the 4th slot is the CTA tile
@@ -51,7 +47,7 @@ export default function Work() {
         <div className={styles.headerLeft}>
           <span className={styles.tag}>
             <span className={styles.tagIndex}>02</span>
-            Portfolio
+            Case Study
           </span>
           <h2 className={styles.title}>
             Our work: <span className={styles.titleAlt}>from</span>
@@ -65,11 +61,11 @@ export default function Work() {
         </a>
       </header>
 
-      <div className={styles.grid} data-ready={ready}>
+      <div className={styles.grid}>
         {visible.map((item, i) => (
           <a
             key={item._id || i}
-            href="#"
+            href={item.slug ? `/work/${item.slug}` : "#"}
             className={styles.card}
             style={{ "--i": i }}
           >

@@ -1,6 +1,6 @@
 import styles from "./PageHero.module.css";
 
-export default function PageHero({ eyebrow, title, titleAlt, description }) {
+export default function PageHero({ eyebrow, eyebrowIndex = "01", title, titleAlt, description }) {
   return (
     <section className={styles.hero}>
       <div className={styles.glow} aria-hidden="true">
@@ -12,7 +12,7 @@ export default function PageHero({ eyebrow, title, titleAlt, description }) {
 
         {eyebrow && (
           <span className={styles.eyebrow}>
-            <span className={styles.eyebrowIndex}>00</span>
+            <span className={styles.eyebrowIndex}>{eyebrowIndex}</span>
             {eyebrow}
           </span>
         )}

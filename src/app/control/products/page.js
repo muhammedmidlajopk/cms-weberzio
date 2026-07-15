@@ -7,11 +7,18 @@ import styles from "./page.module.css";
 
 const EMPTY = {
   title: "",
+  slug: "",
   meta: "",
   price: "",
   year: "",
   imageUrl: "",
   tagsInput: "",
+  summary: "",
+  client: "",
+  role: "",
+  liveUrl: "",
+  gallery: [],
+  resultsInput: "",
 };
 
 export default function AdminProducts() {
@@ -20,8 +27,10 @@ export default function AdminProducts() {
   const [editingId, setEditingId] = useState(null);
   const [form, setForm] = useState(EMPTY);
   const [uploading, setUploading] = useState(false);
+  const [galleryUploading, setGalleryUploading] = useState(false);
   const [toast, setToast] = useState({ msg: "", type: "success" });
   const fileInput = useRef(null);
+  const galleryInput = useRef(null);
 
   const fetchItems = useCallback(async () => {
     try {
@@ -52,18 +61,25 @@ export default function AdminProducts() {
   function handleEdit(item) {
     setForm({
       title: item.title || "",
+      slug: item.slug || "",
       meta: item.meta || "",
       price: item.price || "",
       year: item.year || "",
       imageUrl: item.imageUrl || "",
       tagsInput: Array.isArray(item.tags) ? item.tags.join(", ") : "",
+      summary: item.summary || "",
+      client: item.client || "",
+      role: item.role || "",
+      liveUrl: item.liveUrl || "",
+      gallery: Array.isArray(item.gallery) ? item.gallery : [],
+      resultsInput: Array.isArray(item.results) ? item.results.join("\n") : "",
     });
     setEditingId(item._id);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   async function handleDelete(id) {
-    if (!confirm("Delete this product?")) return;
+    if (!confirm("Delete this case study?")) return;
     try {
       const res = await adminFetch(`/api/products/${id}`, { method: "DELETE" });
       if (res.ok) {
@@ -75,28 +91,59 @@ export default function AdminProducts() {
     }
   }
 
+  async function uploadFile(file) {
+    if (file.size > 5 * 1024 * 1024) {
+      throw new Error("Image must be under 5MB");
+    }
+    const fd = new FormData();
+    fd.append("file", file);
+    const res = await adminFetch("/api/upload", { method: "POST", body: fd });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Upload failed");
+    return data.url;
+  }
+
   async function handleImageUpload(e) {
     const file = e.target.files?.[0];
     if (!file) return;
-    if (file.size > 5 * 1024 * 1024) {
-      showToast("Image must be under 5MB", "error");
-      return;
-    }
     setUploading(true);
     try {
-      const fd = new FormData();
-      fd.append("file", file);
-      const res = await adminFetch("/api/upload", { method: "POST", body: fd });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Upload failed");
-      setForm((f) => ({ ...f, imageUrl: data.url }));
-      showToast("Image uploaded");
+      const url = await uploadFile(file);
+      setForm((f) => ({ ...f, imageUrl: url }));
+      showToast("Cover uploaded");
     } catch (err) {
       showToast(err.message || "Upload failed", "error");
     } finally {
       setUploading(false);
       e.target.value = "";
     }
+  }
+
+  async function handleGalleryUpload(e) {
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
+    setGalleryUploading(true);
+    try {
+      const urls = [];
+      for (const file of files) {
+        const url = await uploadFile(file);
+        urls.push(url);
+      }
+      setForm((f) => ({ ...f, gallery: [...f.gallery, ...urls] }));
+      showToast(`Added ${urls.length} image${urls.length > 1 ? "s" : ""}`);
+    } catch (err) {
+      showToast(err.message || "Upload failed", "error");
+    } finally {
+      setGalleryUploading(false);
+      e.target.value = "";
+    }
+  }
+
+  function removeGalleryImage(idx) {
+    setForm((f) => ({
+      ...f,
+      gallery: f.gallery.filter((_, i) => i !== idx),
+    }));
   }
 
   async function handleSave(e) {
@@ -108,13 +155,25 @@ export default function AdminProducts() {
         .map((t) => t.trim())
         .filter(Boolean);
 
+      const results = form.resultsInput
+        .split("\n")
+        .map((r) => r.trim())
+        .filter(Boolean);
+
       const payload = {
         title: form.title,
+        slug: form.slug,
         meta: form.meta,
         price: form.price,
         year: form.year,
         imageUrl: form.imageUrl,
         tags,
+        summary: form.summary,
+        client: form.client,
+        role: form.role,
+        liveUrl: form.liveUrl,
+        gallery: form.gallery,
+        results,
       };
 
       const url = editingId ? `/api/products/${editingId}` : "/api/products";
@@ -140,9 +199,9 @@ export default function AdminProducts() {
     <div className={styles.page}>
       <div className={styles.header}>
         <div>
-          <h1 className={styles.title}>Projects</h1>
+          <h1 className={styles.title}>Case Studies</h1>
           <p className={styles.subtitle}>
-            Manage case-study projects shown on the home page ({items.length})
+            Manage case studies shown on the home page ({items.length})
           </p>
         </div>
         {toast.msg && (
@@ -158,20 +217,26 @@ export default function AdminProducts() {
 
       <form className={styles.form} onSubmit={handleSave}>
         <h2 className={styles.formTitle}>
-          {editingId ? "Edit Project" : "Add New Project"}
+          {editingId ? "Edit Case Study" : "Add New Case Study"}
         </h2>
 
         <div className={styles.formGrid}>
           <input
             className={styles.input}
-            placeholder="Project title *"
+            placeholder="Title *"
             value={form.title}
             onChange={(e) => setForm({ ...form, title: e.target.value })}
             required
           />
           <input
             className={styles.input}
-            placeholder="Meta (e.g. mobile app design / motion)"
+            placeholder="Slug (auto from title if empty)"
+            value={form.slug}
+            onChange={(e) => setForm({ ...form, slug: e.target.value })}
+          />
+          <input
+            className={styles.input}
+            placeholder="Meta (e.g. web app / product engineering)"
             value={form.meta}
             onChange={(e) => setForm({ ...form, meta: e.target.value })}
           />
@@ -183,17 +248,43 @@ export default function AdminProducts() {
           />
           <input
             className={styles.input}
+            placeholder="Client name"
+            value={form.client}
+            onChange={(e) => setForm({ ...form, client: e.target.value })}
+          />
+          <input
+            className={styles.input}
+            placeholder="Your role (e.g. Design & Engineering)"
+            value={form.role}
+            onChange={(e) => setForm({ ...form, role: e.target.value })}
+          />
+          <input
+            className={styles.input}
+            placeholder="Live site URL (https://…)"
+            value={form.liveUrl}
+            onChange={(e) => setForm({ ...form, liveUrl: e.target.value })}
+          />
+          <input
+            className={styles.input}
             placeholder="Price (optional, e.g. $28 or FREE)"
             value={form.price}
             onChange={(e) => setForm({ ...form, price: e.target.value })}
           />
         </div>
 
+        <textarea
+          className={styles.textarea}
+          placeholder="Summary — a paragraph describing the project"
+          rows={4}
+          value={form.summary}
+          onChange={(e) => setForm({ ...form, summary: e.target.value })}
+        />
+
         <div className={styles.imageRow}>
           <div className={styles.imagePreview}>
             {form.imageUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={form.imageUrl} alt="Project" />
+              <img src={form.imageUrl} alt="Cover" />
             ) : (
               <span className={styles.imageEmpty}>No image</span>
             )}
@@ -238,11 +329,65 @@ export default function AdminProducts() {
           </div>
         </div>
 
+        <div className={styles.gallerySection}>
+          <div className={styles.galleryHeader}>
+            <div>
+              <div className={styles.imageLabel}>Gallery</div>
+              <div className={styles.imageHint}>
+                Additional images shown on the detail page
+              </div>
+            </div>
+            <button
+              type="button"
+              className={styles.uploadBtn}
+              onClick={() => galleryInput.current?.click()}
+              disabled={galleryUploading}
+            >
+              <Upload size={13} strokeWidth={1.75} />
+              {galleryUploading ? "Uploading…" : "Add images"}
+            </button>
+            <input
+              ref={galleryInput}
+              type="file"
+              accept="image/*"
+              multiple
+              hidden
+              onChange={handleGalleryUpload}
+            />
+          </div>
+          {form.gallery.length > 0 && (
+            <div className={styles.galleryGrid}>
+              {form.gallery.map((url, i) => (
+                <div key={url + i} className={styles.galleryItem}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={url} alt={`Gallery ${i + 1}`} />
+                  <button
+                    type="button"
+                    className={styles.galleryRemove}
+                    onClick={() => removeGalleryImage(i)}
+                    aria-label="Remove image"
+                  >
+                    <X size={12} strokeWidth={2} />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
         <input
           className={styles.input}
-          placeholder="Tags — comma separated (e.g. motion, marketing & sales materials)"
+          placeholder="Tags — comma separated (e.g. Next.js, TypeScript, Postgres)"
           value={form.tagsInput}
           onChange={(e) => setForm({ ...form, tagsInput: e.target.value })}
+        />
+
+        <textarea
+          className={styles.textarea}
+          placeholder={"Results / metrics — one per line\n+40% conversion\nReduced load time to 1.2s"}
+          rows={4}
+          value={form.resultsInput}
+          onChange={(e) => setForm({ ...form, resultsInput: e.target.value })}
         />
 
         <div className={styles.formActions}>
@@ -254,7 +399,7 @@ export default function AdminProducts() {
             {editingId ? (
               <><Pencil size={14} strokeWidth={2} /> Update</>
             ) : (
-              <><Plus size={14} strokeWidth={2} /> Add Project</>
+              <><Plus size={14} strokeWidth={2} /> Add Case Study</>
             )}
           </button>
           {editingId && (
@@ -274,7 +419,7 @@ export default function AdminProducts() {
           <div className={styles.emptyState}>Loading...</div>
         ) : items.length === 0 ? (
           <div className={styles.emptyState}>
-            No projects yet. Add one above.
+            No case studies yet. Add one above.
           </div>
         ) : (
           items.map((item) => (
@@ -312,6 +457,9 @@ export default function AdminProducts() {
                 <div className={styles.cardMetaRow}>
                   {item.year && <span className={styles.cardYear}>© {item.year}</span>}
                   {item.meta && <span className={styles.cardMeta}>{item.meta}</span>}
+                  {item.slug && (
+                    <span className={styles.cardMeta}>/work/{item.slug}</span>
+                  )}
                 </div>
                 {Array.isArray(item.tags) && item.tags.length > 0 && (
                   <ul className={styles.cardTags}>

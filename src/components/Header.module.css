@@ -25,10 +25,22 @@
   align-items: center;
   justify-content: space-between;
   gap: 24px;
+  pointer-events: none;
 }
 
 .inner > * {
   pointer-events: auto;
+}
+
+@media (max-width: 768px) {
+  .header,
+  .inner,
+  .inner > * {
+    pointer-events: auto;
+  }
+  .headerHidden {
+    pointer-events: none;
+  }
 }
 
 .logo {
@@ -50,10 +62,12 @@
 
 /* Menu button — text with a two-line icon on the left */
 .menuButton {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 14px;
-  padding: 0;
+  padding: 8px 4px;
+  margin: -8px -4px;
   background: transparent;
   border: none;
   color: var(--text-primary);
@@ -64,6 +78,8 @@
   cursor: pointer;
   z-index: 1001;
   mix-blend-mode: difference;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .menuIcon {
@@ -125,10 +141,12 @@
 
   .logo {
     font-size: 17px;
+    mix-blend-mode: normal;
   }
 
   .menuButton {
     font-size: 14px;
     gap: 10px;
+    mix-blend-mode: normal;
   }
 }

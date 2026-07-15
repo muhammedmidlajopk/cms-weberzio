@@ -7,6 +7,11 @@ import "./globals.css";
 
 export const dynamic = "force-dynamic";
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
+
 const sora = Sora({
   variable: "--font-sora",
   subsets: ["latin"],

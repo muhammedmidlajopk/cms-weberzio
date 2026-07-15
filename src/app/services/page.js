@@ -26,12 +26,13 @@ export default async function ServicesPage() {
       <main>
         <PageHero
           eyebrow="Services"
+          eyebrowIndex="01"
           title="Services"
           titleAlt="we offer."
           description="Web applications, SaaS platforms, APIs, cloud infrastructure, and the technical guidance to keep it all moving forward."
         />
-        <ServicesGrid />
-        <Process />
+        <ServicesGrid tagIndex="02" />
+        <Process tagIndex="03" />
       </main>
       <Footer siteName={settings.siteName} />
     </>

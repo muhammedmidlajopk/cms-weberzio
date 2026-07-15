@@ -128,39 +128,30 @@
   text-decoration: none;
   color: inherit;
   background: transparent;
-  transition: transform 0.4s ease, opacity 0.6s ease;
-  opacity: 0;
-  transform: translateY(24px);
-}
-
-.grid[data-ready="true"] .card,
-.grid[data-ready="true"] .tail {
-  opacity: 1;
-  transform: translateY(0);
-  transition-delay: calc(var(--i, 0) * 0.06s);
+  transition: transform 0.4s ease;
 }
 
 .cardMedia {
   position: relative;
-  aspect-ratio: 4 / 3;
+  width: 100%;
+  padding-top: 75%; /* 4:3 fallback for iOS < 15 */
   border-radius: 20px;
   overflow: hidden;
   background: linear-gradient(135deg, #171932, #0d0e1d 60%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   transition: transform 0.4s ease;
 }
 
-.card:hover .cardMedia {
-  transform: translateY(-3px);
-}
-
 .cardImg {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.7s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.card:hover .cardMedia {
+  transform: translateY(-3px);
 }
 
 .card:hover .cardImg {
@@ -184,8 +175,12 @@
 }
 
 .cardShape {
+  position: absolute;
+  top: 50%;
+  left: 50%;
   width: 62%;
-  aspect-ratio: 1;
+  padding-top: 62%;
+  transform: translate(-50%, -50%);
   border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
   filter: blur(2px);
   pointer-events: none;
@@ -193,7 +188,7 @@
 }
 
 .card:hover .cardShape {
-  transform: scale(1.06) rotate(3deg);
+  transform: translate(-50%, -50%) scale(1.06) rotate(3deg);
 }
 
 .cardShape[data-variant="0"] {
@@ -276,10 +271,7 @@
   background: transparent;
   color: inherit;
   text-decoration: none;
-  opacity: 0;
-  transform: translateY(24px);
-  transition: border-color 0.3s ease, background 0.3s ease, opacity 0.6s ease,
-    transform 0.6s ease;
+  transition: border-color 0.3s ease, background 0.3s ease;
 }
 
 .tail:hover {
@@ -374,5 +366,57 @@
 
   .tailInner {
     padding: 28px 24px;
+  }
+}
+
+@media (max-width: 600px) {
+  .section {
+    padding: 64px 20px;
+  }
+
+  .title {
+    font-size: clamp(30px, 8vw, 40px);
+  }
+
+  .header {
+    padding-bottom: 24px;
+    margin-bottom: 24px;
+  }
+
+  .viewAll {
+    padding: 10px 16px;
+    font-size: 12px;
+  }
+
+  .cardMedia {
+    padding-top: 80%; /* 5:4 */
+    border-radius: 16px;
+  }
+
+  .cardBody {
+    padding: 14px 2px 0;
+  }
+
+  .cardTitle {
+    font-size: 18px;
+  }
+
+  .cardMeta {
+    font-size: 12px;
+  }
+
+  .tail {
+    min-height: 200px;
+    border-radius: 16px;
+  }
+
+  .tailInner {
+    padding: 24px 20px;
+    gap: 18px;
+  }
+
+  .tailCta {
+    padding: 12px 18px;
+    font-size: 12px;
   }
 }

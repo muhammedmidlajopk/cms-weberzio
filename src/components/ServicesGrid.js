@@ -12,7 +12,7 @@ const PLACEHOLDER = SERVICES.map((s) => ({
   tags: s.tags,
 }));
 
-export default function ServicesGrid() {
+export default function ServicesGrid({ tagIndex = "01" }) {
   const [items, setItems] = useState(PLACEHOLDER);
 
   useEffect(() => {
@@ -38,7 +38,7 @@ export default function ServicesGrid() {
       <header className={styles.header}>
         <div>
           <span className={styles.tag}>
-            <span className={styles.tagIndex}>01</span>
+            <span className={styles.tagIndex}>{tagIndex}</span>
             What we do
           </span>
           <h2 className={styles.title}>

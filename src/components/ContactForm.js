@@ -14,7 +14,7 @@ const BUDGETS = [
   "Not sure yet",
 ];
 
-export default function ContactForm() {
+export default function ContactForm({ tagIndex = "02" }) {
   const [form, setForm] = useState(EMPTY);
   const [status, setStatus] = useState({ state: "idle", msg: "" });
 
@@ -51,7 +51,7 @@ export default function ContactForm() {
       <div className={styles.wrapper}>
         <aside className={styles.side}>
           <span className={styles.tag}>
-            <span className={styles.tagIndex}>01</span>
+            <span className={styles.tagIndex}>{tagIndex}</span>
             Get in touch
           </span>
 

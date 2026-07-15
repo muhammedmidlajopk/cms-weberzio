@@ -14,9 +14,9 @@ export default async function Home() {
       <Header siteName={settings.siteName} logoUrl={settings.logoUrl} />
       <main>
         <Hero siteName={settings.siteName} tagline={settings.tagline} />
+        <About />
         <Work />
         <Testimonials />
-        <About />
       </main>
       <Footer siteName={settings.siteName} />
     </>

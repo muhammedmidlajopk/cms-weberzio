@@ -25,11 +25,12 @@ export default async function ContactPage() {
       <main>
         <PageHero
           eyebrow="Contact"
+          eyebrowIndex="01"
           title="Let's talk"
           titleAlt="about your project."
           description="Tell us what you're building and we'll get back to you within one business day with next steps."
         />
-        <ContactForm />
+        <ContactForm tagIndex="02" />
       </main>
       <Footer siteName={settings.siteName} />
     </>
