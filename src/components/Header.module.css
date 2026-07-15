@@ -25,22 +25,10 @@
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  pointer-events: none;
 }
 
 .inner > * {
   pointer-events: auto;
-}
-
-@media (max-width: 768px) {
-  .header,
-  .inner,
-  .inner > * {
-    pointer-events: auto;
-  }
-  .headerHidden {
-    pointer-events: none;
-  }
 }
 
 .logo {
@@ -62,12 +50,10 @@
 
 /* Menu button — text with a two-line icon on the left */
 .menuButton {
-  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 14px;
-  padding: 8px 4px;
-  margin: -8px -4px;
+  padding: 0;
   background: transparent;
   border: none;
   color: var(--text-primary);
@@ -78,8 +64,6 @@
   cursor: pointer;
   z-index: 1001;
   mix-blend-mode: difference;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
 }
 
 .menuIcon {
@@ -134,9 +118,22 @@
   transform: translateY(-18px);
 }
 
+/* Mobile: strip everything fancy and use a plain, solid button.
+   No mix-blend-mode, no animations, no overflow-hidden text swap,
+   no pointer-events: none on the header — just a button that works. */
 @media (max-width: 768px) {
   .header {
-    padding: 22px 22px;
+    padding: 14px 16px;
+    pointer-events: auto;
+  }
+
+  .headerHidden {
+    pointer-events: none;
+  }
+
+  .inner {
+    padding-left: 0;
+    gap: 12px;
   }
 
   .logo {
@@ -145,8 +142,40 @@
   }
 
   .menuButton {
-    font-size: 14px;
-    gap: 10px;
     mix-blend-mode: normal;
+    background: #ffffff;
+    color: #04050f;
+    border-radius: 999px;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    gap: 10px;
+    min-height: 44px;
   }
+
+  .menuIcon span {
+    background: #04050f;
+    transition: none;
+  }
+
+  .menuLabel {
+    height: auto;
+    overflow: visible;
+  }
+
+  .menuLabelInner {
+    transition: none;
+    transform: none !important;
+  }
+
+  .menuLabelInner > span {
+    height: auto;
+    line-height: 1;
+  }
+
+  /* Show only the appropriate label; hide the sliding pair */
+  .menuLabelInner > span:nth-child(1) { display: block; }
+  .menuLabelInner > span:nth-child(2) { display: none; }
+  .menuLabelInner[data-open="true"] > span:nth-child(1) { display: none; }
+  .menuLabelInner[data-open="true"] > span:nth-child(2) { display: block; }
 }

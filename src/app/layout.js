@@ -7,10 +7,14 @@ import "./globals.css";
 
 export const dynamic = "force-dynamic";
 
-export const viewport = {
-  width: "device-width",
-  initialScale: 1,
-};
+export async function generateViewport() {
+  const s = await getSiteSettings();
+  return {
+    width: "device-width",
+    initialScale: 1,
+    themeColor: s.themeColor,
+  };
+}
 
 const sora = Sora({
   variable: "--font-sora",
@@ -40,7 +44,6 @@ export async function generateMetadata() {
     description,
     keywords: keywords || undefined,
     icons: s.faviconUrl ? { icon: s.faviconUrl } : undefined,
-    themeColor: s.themeColor,
     alternates: {
       canonical,
     },

@@ -29,7 +29,7 @@ export async function requireAuth(request) {
     );
   }
 
-  const session = verifySession(token);
+  const session = await verifySession(token);
   if (!session) {
     return NextResponse.json(
       { error: "Session expired or invalid" },

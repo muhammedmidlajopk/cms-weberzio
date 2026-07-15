@@ -253,43 +253,44 @@
 @media (max-width: 768px) {
   .grid {
     grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: 1fr auto;
     overflow-y: auto;
   }
 
-  .leftCol {
-    border-right: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    padding: 22px 24px;
-    display: flex;
-    align-items: center;
-  }
+  .leftCol { display: none; }
 
   .watermark { display: none; }
 
   .centerCol {
-    padding: 48px 24px 32px;
+    padding: 72px 20px 16px;
     align-items: flex-start;
   }
 
-  .list { gap: 8px; }
+  .list { gap: 4px; }
 
   .linkLabel {
-    font-size: clamp(38px, 10vw, 56px);
+    font-size: clamp(32px, 9vw, 48px);
   }
 
   .rightCol {
     border-left: none;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
-    padding: 32px 24px 40px;
+    padding: 20px 20px 24px;
     justify-content: flex-start;
   }
 
   .closeBtn {
-    top: 20px;
-    right: 24px;
+    position: fixed;
+    top: 16px;
+    right: 16px;
     background: transparent;
   }
 
-  .contact { max-width: none; }
+  .contact {
+    max-width: none;
+    gap: 8px;
+  }
+
+  .contactTitle { font-size: 18px; }
+  .contactBody { display: none; }
 }

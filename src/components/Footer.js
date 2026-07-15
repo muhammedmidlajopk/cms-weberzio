@@ -88,16 +88,6 @@ export default function Footer({ siteName = "weberzio" }) {
         </div>
 
         <div className={styles.col}>
-          <h3 className={styles.colTitle}>Social</h3>
-          <ul className={styles.socialList}>
-            <li><a href="#" className={styles.socialLink}>GitHub</a></li>
-            <li><a href="#" className={styles.socialLink}>LinkedIn</a></li>
-            <li><a href="#" className={styles.socialLink}>Twitter</a></li>
-            <li><a href="#" className={styles.socialLink}>Dribbble</a></li>
-          </ul>
-        </div>
-
-        <div className={styles.col}>
           <h3 className={styles.colTitle}>Newsletter</h3>
           <form onSubmit={handleSubscribe} className={styles.newsletter}>
             <input
@@ -126,9 +116,14 @@ export default function Footer({ siteName = "weberzio" }) {
       <div className={styles.bottom}>
         <span className={styles.brand}>{siteName}</span>
         <span className={styles.copy}>© {year} All rights reserved</span>
-        <a href="#top" className={styles.toTop} aria-label="Back to top">
+        <button
+          type="button"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className={styles.toTop}
+          aria-label="Back to top"
+        >
           <span className={styles.toTopArrow} aria-hidden="true" />
-        </a>
+        </button>
       </div>
     </footer>
   );

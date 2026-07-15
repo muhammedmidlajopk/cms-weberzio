@@ -6,23 +6,25 @@ const LOGIN_PATH = "/control/login";
 export async function proxy(request) {
   const { pathname } = request.nextUrl;
 
-  // Allow access to login page and static files
   if (pathname === LOGIN_PATH || pathname.startsWith("/_next") || pathname.startsWith("/api")) {
     return NextResponse.next();
   }
 
-  // Protect all /control routes
   if (pathname.startsWith("/control")) {
     const token = request.cookies.get(SESSION_COOKIE)?.value;
 
     if (!token) {
-      return NextResponse.redirect(new URL(LOGIN_PATH, request.url));
+      const url = new URL(LOGIN_PATH, request.url);
+      url.searchParams.set("next", pathname);
+      return NextResponse.redirect(url);
     }
 
-    const session = verifySession(token);
+    const session = await verifySession(token);
 
     if (!session) {
-      const response = NextResponse.redirect(new URL(LOGIN_PATH, request.url));
+      const url = new URL(LOGIN_PATH, request.url);
+      url.searchParams.set("next", pathname);
+      const response = NextResponse.redirect(url);
       response.cookies.set(SESSION_COOKIE, "", { maxAge: 0, path: "/" });
       return response;
     }

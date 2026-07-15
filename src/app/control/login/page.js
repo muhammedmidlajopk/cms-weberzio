@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import {
   User,
@@ -15,13 +15,20 @@ import {
 import styles from "./page.module.css";
 
 export default function AdminLogin() {
+  return (
+    <Suspense fallback={<div className={styles.page} />}>
+      <LoginForm />
+    </Suspense>
+  );
+}
+
+function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [capsLock, setCapsLock] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
   const searchParams = useSearchParams();
 
   async function handleSubmit(e) {
@@ -34,6 +41,7 @@ export default function AdminLogin() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
+        credentials: "same-origin",
       });
 
       if (!res.ok) {
@@ -42,7 +50,8 @@ export default function AdminLogin() {
       }
 
       const next = searchParams.get("next");
-      router.push(next && next.startsWith("/control") ? next : "/control");
+      const target = next && next.startsWith("/control") ? next : "/control";
+      window.location.href = target;
     } catch (err) {
       setError(err.message);
       setLoading(false);

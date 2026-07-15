@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { useState } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import {
   LayoutDashboard,
@@ -49,57 +49,17 @@ function findLabel(items, path) {
 }
 
 export default function AdminLayout({ children }) {
-  const [authenticated, setAuthenticated] = useState(null);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-  const router = useRouter();
   const pathname = usePathname();
-  const mountedRef = useRef(true);
+  const isLoginPage = pathname === "/control/login";
 
-  const checkAuth = useCallback(async () => {
-    if (pathname === "/control/login") {
-      setAuthenticated(true);
-      return;
-    }
-
-    try {
-      const res = await fetch("/api/auth/me");
-      if (!mountedRef.current) return;
-
-      if (!res.ok) {
-        router.push("/control/login");
-        return;
-      }
-      setAuthenticated(true);
-    } catch {
-      if (mountedRef.current) {
-        router.push("/control/login");
-      }
-    }
-  }, [router, pathname]);
-
-  useEffect(() => {
-    mountedRef.current = true;
-    checkAuth();
-
-    return () => {
-      mountedRef.current = false;
-    };
-  }, [checkAuth]);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   async function handleLogout() {
     await fetch("/api/auth/logout", { method: "POST" });
-    router.push("/control/login");
+    window.location.href = "/control/login";
   }
 
-  if (authenticated === null) {
-    return (
-      <div className={styles.loadingPage}>
-        <div className={styles.spinner} />
-      </div>
-    );
-  }
-
-  if (pathname === "/control/login") {
+  if (isLoginPage) {
     return children;
   }
 
